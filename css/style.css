@@ -1,0 +1,20 @@
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #222;
+}
+
+#canvasWrapper {
+	width: 640px;
+	height: 480px;
+	margin: auto;
+}
+
+canvas {
+	position: absolute;
+}
+
+
