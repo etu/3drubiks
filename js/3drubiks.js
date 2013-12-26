@@ -10,39 +10,14 @@ var RubiksCube = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 
-		// [ x,  y,  z]
-		var cubeOffsets = [
-			[ 0,  1,  0], // T Center
-			[ 1,  1,  0],
-			[-1,  1,  0],
-			[ 0,  1,  1],
-			[ 0,  1, -1],
-			[ 1,  1,  1],
-			[-1,  1,  1],
-			[ 1,  1, -1],
-			[-1,  1, -1],
-
-			[ 0,  0,  1], // F Center
-			[-1,  0,  1],
-			[ 1,  0,  1],
-
-			[-1,  0,  0], // L Center
-			[ 1,  0,  0], // R Center
-
-			[ 0,  0, -1], // B Center
-			[-1,  0, -1],
-			[ 1,  0, -1],
-
-			[ 0, -1,  0], // U Center
-			[ 1, -1,  0],
-			[-1, -1,  0],
-			[ 0, -1,  1],
-			[ 0, -1, -1],
-			[ 1, -1,  1],
-			[-1, -1,  1],
-			[ 1, -1, -1],
-			[-1, -1, -1],
-		];
+		var cubeOffsets = [];
+		for(var i = -1; i <= 1; i++) { // X coords
+			for(var j = -1; j <= 1; j++) { // Y coords
+				for(var k = -1; k <= 1; k++) { // Z coords
+					cubeOffsets.push([i, j, k]);
+				}
+			}
+		}
 
 		Array.each(cubeOffsets, function(offset) {
 			var tmpCube = new THREE.Mesh(
