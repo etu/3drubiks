@@ -7,7 +7,8 @@ var RubiksCube = new Class({
 	Implements: Options,
 	options: {
 		cubesetup: '3x3x3',
-		cubesizes: 100
+		cubesizes: 100,
+		paddingMultiplier: 1.1
 	},
 	cubes: [],
 	initialize: function(options) {
@@ -24,7 +25,7 @@ var RubiksCube = new Class({
 
 		// Create cubeparts
 		Array.each(cubeOffsets, function(offset) {
-			this.cubes.push(new RubiksCubePart({x: offset[0], y: offset[1], z: offset[2], size: this.options.cubesizes}));
+			this.cubes.push(new RubiksCubePart({x: offset[0], y: offset[1], z: offset[2], size: this.options.cubesizes, paddingMultiplier: this.options.paddingMultiplier}));
 		}, this);
 
 		// Append cubeparts to scene
