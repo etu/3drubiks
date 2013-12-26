@@ -52,22 +52,27 @@ var RubiksCubePart = new Class({
 		z: undefined,
 		angle: 0,
 		state: undefined,
-		size: undefined
+		size: undefined,
+		paddingMultiplier: 1.1,
 	},
 	initialize: function(options) {
 		this.setOptions(options);
 
+		// Create a temporary cube object
 		var tmpCube = new THREE.Mesh(
 			new THREE.CubeGeometry(this.options.size, this.options.size, this.options.size),
 			new THREE.MeshNormalMaterial()
 		);
 
-		tmpCube.position.x = this.options.x * this.options.size * 1.1;
-		tmpCube.position.y = this.options.y * this.options.size * 1.1;
-		tmpCube.position.z = this.options.z * this.options.size * 1.1;
+		// Set offset values for positioning
+		Object.each(tmpCube.position, function(value, key) {
+			tmpCube.position[key] = this.options[key] * this.options.size * this.options.paddingMultiplier;
+		}, this);
 
+		// Allow overdrawing
 		tmpCube.overdraw = true;
 
+		// Save tmpCube
 		this.options.object = tmpCube;
 	}
 });
