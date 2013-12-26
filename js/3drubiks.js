@@ -61,7 +61,7 @@ var RubiksCubePart = new Class({
 		// Create a temporary cube object
 		var tmpCube = new THREE.Mesh(
 			new THREE.CubeGeometry(this.options.size, this.options.size, this.options.size),
-			new THREE.MeshNormalMaterial()
+			new THREE.MeshDepthMaterial()
 		);
 
 		// Set offset values for positioning
