@@ -51,7 +51,9 @@ var RubiksCubePart = new Class({
 		x: undefined,
 		y: undefined,
 		z: undefined,
-		angle: 0,
+		angleX: 0,
+		angleY: 0,
+		angleZ: 0,
 		state: undefined,
 		size: undefined,
 		paddingMultiplier: 1.1,
@@ -75,6 +77,24 @@ var RubiksCubePart = new Class({
 
 		// Save tmpCube
 		this.options.object = tmpCube;
+	},
+	rotate: function(axis, angleChange) {
+		var abs = Number.abs(this.options.x) + Number.abs(this.options.y) + Number.abs(this.options.z);
+
+		switch(abs) {
+			case 0:
+				console.log('you should not exist, but whatever');
+				break;
+			case 1:
+				console.log('centerpart');
+				break;
+			case 2:
+				console.log('edge between two center parts');
+				break;
+			case 3:
+				console.log('cornerpart');
+				break;
+		}
 	}
 });
 
