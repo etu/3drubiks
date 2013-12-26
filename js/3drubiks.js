@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Main class that holds everything together
+ */
 var RubiksCube = new Class({
 	Implements: Options,
 	options: {
@@ -19,30 +22,53 @@ var RubiksCube = new Class({
 			}
 		}
 
+		// Create cubeparts
 		Array.each(cubeOffsets, function(offset) {
-			var tmpCube = new THREE.Mesh(
-				new THREE.CubeGeometry(this.options.cubesizes, this.options.cubesizes, this.options.cubesizes),
-				new THREE.MeshNormalMaterial()
-			);
-
-			tmpCube.position.x = offset[0] * this.options.cubesizes * 1.1;
-			tmpCube.position.y = offset[1] * this.options.cubesizes * 1.1;
-			tmpCube.position.z = offset[2] * this.options.cubesizes * 1.1;
-
-			tmpCube.overdraw = true;
-
-			this.cubes.push(tmpCube);
+			this.cubes.push(new RubiksCubePart({x: offset[0], y: offset[1], z: offset[2], size: this.options.cubesizes}));
 		}, this);
 
-		// Append cubes to scene
+		// Append cubeparts to scene
 		Array.each(this.cubes, function(cube) {
-			scene.add(cube);
+			scene.add(cube.options.object);
 		}, this);
 	},
 	rotate: function(angle) {
 		Array.each(this.cubes, function(cube) {
-			cube.rotation.y += angle;
+			cube.options.object.rotation.y += angle;
 		});
+	}
+});
+
+
+/**
+ * Class that handles state and 3d-object for a specific cubepart
+ */
+var RubiksCubePart = new Class({
+	Implements: Options,
+	options: {
+		object: undefined,
+		x: undefined,
+		y: undefined,
+		z: undefined,
+		angle: 0,
+		state: undefined,
+		size: undefined
+	},
+	initialize: function(options) {
+		this.setOptions(options);
+
+		var tmpCube = new THREE.Mesh(
+			new THREE.CubeGeometry(this.options.size, this.options.size, this.options.size),
+			new THREE.MeshNormalMaterial()
+		);
+
+		tmpCube.position.x = this.options.x * this.options.size * 1.1;
+		tmpCube.position.y = this.options.y * this.options.size * 1.1;
+		tmpCube.position.z = this.options.z * this.options.size * 1.1;
+
+		tmpCube.overdraw = true;
+
+		this.options.object = tmpCube;
 	}
 });
 
@@ -58,7 +84,7 @@ var renderer = new THREE.WebGLRenderer();
 var camera   = new THREE.PerspectiveCamera(80, WIDTH/HEIGHT, 1, 1000);
 var scene    = new THREE.Scene();
 var lamp     = new THREE.PointLight(0xFFFFFF);
-var RubiksCube = new RubiksCube();
+var cube     = new RubiksCube();
 
 // Move the camera
 camera.position.z = 500;
@@ -90,7 +116,7 @@ function animate() {
 	var delta = time - lastTime;
 
 	var angleChange = angularSpeed * delta * 2 * Math.PI / 1000;
-	if(spin) RubiksCube.rotate(angleChange);
+	if(spin) cube.rotate(angleChange);
 	lastTime = time;
 
 	renderer.render(scene, camera); // DRAW
